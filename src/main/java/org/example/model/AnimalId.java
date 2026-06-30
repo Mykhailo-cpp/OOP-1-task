@@ -16,4 +16,16 @@ public final class AnimalId {
     public String toString(){
         return value;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(!(obj instanceof AnimalId animalId)) return false;
+        return value.equals(animalId.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }
