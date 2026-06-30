@@ -1,5 +1,7 @@
 package org.example.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.example.model.Animal;
 import org.example.model.Species;
 
@@ -9,10 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AnimalStats {
-
-    private AnimalStats() {
-    }
 
     public static <T extends Animal> double averageAge(List<T> animals) {
         return animals.stream()

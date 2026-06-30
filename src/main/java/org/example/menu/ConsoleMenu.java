@@ -1,5 +1,6 @@
 package org.example.menu;
 
+import lombok.RequiredArgsConstructor;
 import org.example.model.*;
 import org.example.shelter.Shelter;
 import org.example.util.AnimalStats;
@@ -8,23 +9,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import static org.example.model.Species.*;
-
+@RequiredArgsConstructor
 public class ConsoleMenu {
     private final Shelter<Animal> shelter;
-    private final Scanner scanner =  new Scanner(System.in);
-    public ConsoleMenu(Shelter<Animal> shelter) {
-        this.shelter = shelter;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
-    public void start(){
-        while(true){
+    public void start() {
+        while (true) {
             printMenu();
             System.out.println("Select an option: ");
             int option = scanner.nextInt();
             scanner.nextLine();
 
-            switch(option){
+            switch (option) {
                 case 1:
                     addAnimal();
                     break;
@@ -61,7 +58,7 @@ public class ConsoleMenu {
         }
     }
 
-    private void printMenu(){
+    private void printMenu() {
         System.out.println("""
             1. Add animal
             2. List all animals
@@ -75,7 +72,8 @@ public class ConsoleMenu {
             0. Exit
             """);
     }
-    private void addAnimal(){
+
+    private void addAnimal() {
         System.out.println("Enter animal species(DOG, CAT, BIRD, RABBIT): ");
         Species species;
         try {
@@ -87,9 +85,9 @@ public class ConsoleMenu {
 
         System.out.println("Enter animal name: ");
         String name = scanner.nextLine();
-        if(name.isBlank()){
+        if (name.isBlank()) {
             System.out.println("Name cannot be empty. Animal not added.");
-            return ;
+            return;
         }
 
         System.out.println("Enter animal age: ");
@@ -128,18 +126,20 @@ public class ConsoleMenu {
         shelter.addAnimal(animal);
         System.out.println("Added: " + animal);
     }
-    private void listAllAnimals(){
+
+    private void listAllAnimals() {
         List<Animal> animals = shelter.getAllAnimals();
 
-        if(animals.isEmpty()){
+        if (animals.isEmpty()) {
             System.out.println("No animals in the shelter.");
-            return ;
+            return;
         }
-        for(Animal animal : animals){
+        for (Animal animal : animals) {
             System.out.println(animal);
         }
     }
-    private void findBySpecies(){
+
+    private void findBySpecies() {
         System.out.println("Enter species(DOG, CAT, BIRD, RABBIT) to search for: ");
         Species species;
         try {
@@ -151,27 +151,28 @@ public class ConsoleMenu {
 
         List<Animal> matches = shelter.findBySpecies(species);
 
-        if(matches.isEmpty()){
+        if (matches.isEmpty()) {
             System.out.println("No animals found for species: " + species);
-            return ;
+            return;
         }
-        for(Animal animal : matches) {
+        for (Animal animal : matches) {
             System.out.println(animal);
         }
     }
-    private void listAvailableAnimals(){
+
+    private void listAvailableAnimals() {
         List<Animal> availableAnimals = shelter.findAvailableAnimals();
 
-        if(availableAnimals.isEmpty()){
+        if (availableAnimals.isEmpty()) {
             System.out.println("No available animals for adoption.");
-            return ;
+            return;
         }
-        for(Animal animal : availableAnimals){
+        for (Animal animal : availableAnimals) {
             System.out.println(animal);
         }
     }
 
-    private void markAnimalAsAdopted(){
+    private void markAnimalAsAdopted() {
         System.out.println("Enter the ID of the animal to mark as adopted: ");
         String idString = scanner.nextLine();
         AnimalId id = new AnimalId(idString);
@@ -187,19 +188,25 @@ public class ConsoleMenu {
         System.out.println("Animal with ID " + id + " marked as adopted.");
     }
 
-    private void sortByAge(){
+    private void sortByAge() {
         List<Animal> sorted = shelter.sortByAge();
-        if (sorted.isEmpty()) { System.out.println("No animals in the shelter."); return; }
+        if (sorted.isEmpty()) {
+            System.out.println("No animals in the shelter.");
+            return;
+        }
         sorted.forEach(System.out::println);
     }
 
-    private void sortByName(){
+    private void sortByName() {
         List<Animal> sorted = shelter.sortByName();
-        if (sorted.isEmpty()) { System.out.println("No animals in the shelter."); return; }
+        if (sorted.isEmpty()) {
+            System.out.println("No animals in the shelter.");
+            return;
+        }
         sorted.forEach(System.out::println);
     }
 
-    private void showStatistics(){
+    private void showStatistics() {
         List<Animal> animals = shelter.getAllAnimals();
 
         if (animals.isEmpty()) {
@@ -216,7 +223,7 @@ public class ConsoleMenu {
         counts.forEach((species, count) -> System.out.println(species + ": " + count));
     }
 
-    private void listAdoptionHistory(){
+    private void listAdoptionHistory() {
         List<AdoptionRecord> history = shelter.getAdoptionHistory();
 
         if (history.isEmpty()) {
